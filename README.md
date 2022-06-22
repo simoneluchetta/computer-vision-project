@@ -1,6 +1,6 @@
-# Computer Vision project a.a. 2022: A-NeRF: application to videos
+# Computer Vision project a.y. 2021/2022: A-NeRF: application to videos
 
-Computer Vision project at University of Trento for a.a. 2022
+Computer Vision project at University of Trento for a.y. 2021/2022
 
 Authors:
 1. Simone Luchetta (simone.luchetta@studenti.unitn.it)
@@ -46,7 +46,7 @@ cd project_name
 
 ### A-NeRF's virtual environment
 
-1. Make sure to have the of file `requirements_anerf.txt`.
+1. Make sure to have the of file `A-NeRF/requirements.txt` in the A-NeRF folder.
 2. Create a new virtual environment for A-NeRF: 
 ```bash
 virtualenv -p /usr/bin/python3.8 anerf
@@ -58,12 +58,12 @@ source anerf/bin/activate
 4. Check if the environment is active: the following string should appear in the terminal, before the usual path: `(anerf)`.
 5. Run the command 
 ```bash
-pip install -r /path/to/requirements_anerf.txt
+pip install -r /A-NeRF/requirements.txt
 ```
 
 ### SPIN's virtual environment
 
-1. Make sure to have the of file `requirements_spin.txt`.
+1. Make sure to have the of file `requirements.txt` in the SPIN folder.
 2. Create a new virtual environment for SPIN : 
 ```bash
 virtualenv spin -p python3
@@ -75,7 +75,7 @@ source spin/bin/activate
 4. Check if the environment is active: the following string should appear in the terminal, before the usual path: `(spin)`.
 5. Run the command
 ```bash
-pip install -r /path/to/requirements_spin.txt
+pip install -r /SPIN/requirements.txt
 ```
 
 ### Clone the project
@@ -119,12 +119,6 @@ If OpenPose was successfully installed on a Linux machine run this command.
 ```bash
 sudo apt install ffmpeg
 ```  
-Or alternatively:  
-
-```bash
-wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz
-tar -xvf /path/to/ffmpeg-git-amd64-static.tar.xz
-``` 
 
 If not, download it on your Windows machine. Informations can be found at:
 https://ffmpeg.org/download.html#build-windows
@@ -136,9 +130,8 @@ Inside `project_name` folder there should be:
 3. spin venv
 4. SPIN source code folder
 5. Openpose folder
-6. ffmpeg folder ??????????
-7. *videofile*
-8. `run_pipeline.py`
+6. *videofile*
+7. `run_pipeline.py`
 
 The output of A-NeRF will be stored in ```A-NeRF/render_output```
 
