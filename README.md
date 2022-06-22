@@ -18,6 +18,10 @@ One example of the possibility of the model is shown below:
 
 <!-- ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif) -->
 
+https://user-images.githubusercontent.com/56063432/175058259-02cc04f7-0196-40a5-ba19-26c4c08c6c16.mp4
+
+
+
 Install all the components as described below.  
 To run the project simply type in the command shell:
 ```bash
