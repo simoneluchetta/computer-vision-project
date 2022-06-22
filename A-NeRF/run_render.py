@@ -30,6 +30,7 @@ GT_PREFIXES = {
     'mixamo': 'data/mixamo',
 }
 
+
 def config_parser():
     import configargparse
     parser = configargparse.ArgumentParser()
@@ -88,6 +89,7 @@ def config_parser():
                         help='number of frames to be rendered')
 
     return parser
+
 
 def load_nerf(args, nerf_args, skel_type=CMUSkeleton):
 
@@ -391,11 +393,8 @@ def init_catalog(args, n_bullet=10):
     hard_idx = [10]
     surreal_hard = {
         'data_h5': 'data/surreal/surreal_train_h5py.h5',
-        # 'retarget': set_dict(hard_idx, length=60, skip=5, center_kps=True),
         'retarget': set_dict(hard_idx, length=args.frame_number*2, skip=2, center_kps=True),
 
-        # 'bullet': set_dict([190,  210,  230,  490,  510,  530,  790,  810,  830,  910,  930, 950, 1090, 1110, 1130],
-        #                    n_bullet=n_bullet, center_kps=True, center_cam=False),
         'bullet': set_dict([190,  210,  230,  490,  510,  530,  790,  810,  830,  910,  930, 950, 1090, 1110, 1130],
                            n_bullet=n_bullet, center_kps=True, center_cam=False),
 
@@ -445,7 +444,7 @@ def init_catalog(args, n_bullet=10):
         'data_h5': 'data/mixamo/James_processed_h5py.h5',
         'idx_map': load_idxs('data/mixamo/James_selected.npy'),
         'refined': 'neurips21_ckpt/trained/ours/mixamo/james_tv_500k.tar',
-        'retarget': set_dict(james_idx, length=30, skip=2),
+        'retarget': set_dict(james_idx, length=args.frame_number*2, skip=2),
         'bullet': set_dict(james_idx, n_bullet=n_bullet, center_cam=True, center_kps=True),
         'interpolate': set_dict(james_idx, n_step=10, undo_rot=True,
                                 center_cam=True),
@@ -460,15 +459,14 @@ def init_catalog(args, n_bullet=10):
         'data_h5': 'data/mixamo/Archer_processed_h5py.h5',
         'idx_map': load_idxs('data/mixamo/Archer_selected.npy'),
         'refined': 'neurips21_ckpt/trained/ours/mixamo/archer_tv_500k.tar',
-        'retarget': set_dict(archer_idx, length=30, skip=2),
+        'retarget': set_dict(archer_idx, length=args.frame_number*2, skip=2),
         'bullet': set_dict(archer_idx, n_bullet=n_bullet, center_cam=True, center_kps=True),
         'interpolate': set_dict(archer_idx, n_step=10, undo_rot=True,
                                 center_cam=True),
         'bubble': set_dict(archer_idx, n_step=30),
         'animate': set_dict([1886, 2586, 4465], n_step=10, center_cam=True, center_kps=True,
-                            # joints=np.array([18, 19, 20, 21, 22, 23])),
-                            joints=np.array(range(0,24))),  # joints defines which joints to animate, for example if joints 1:10 are legs and 18:23 arms, 
-                                                            # by setting joints = 18:23 it will animate only the arms and fix the other joints
+                            joints=np.array(range(0, 24))),     # joints defines which joints to animate, for example if joints 1:10 are legs and 18:23 arms,
+                                                                # by setting joints = 18:23 it will animate only the arms and fix the other joints
     }
 
     # NeuralBody
@@ -594,8 +592,7 @@ def load_retarget(pose_h5, c2ws, focals, rest_pose, pose_keys,
 ########################  Tweak code starting   #######################
 #######################################################################
 
-    npz_dir = 'NPZ_OUTS'
-    kps, bones = bones_and_joint_preprocessing(npz_dir)
+    kps, bones = bones_and_joint_preprocessing()
 
     if center_kps:
         root = kps[..., :1, :].copy()  # assume to be CMUSkeleton
@@ -612,17 +609,17 @@ def load_retarget(pose_h5, c2ws, focals, rest_pose, pose_keys,
     return kps, skts, c2ws, cam_idxs, focals, bones
 
 
-def bones_and_joint_preprocessing(filename):
+def bones_and_joint_preprocessing():
 
     dataset_ext_scale = 0.25 / 0.00035
     ext_scale = 0.001
     ext_scale = dataset_ext_scale * ext_scale
 
-    # data from .npz files
-    joints3D, poses = import_npz(filename)
+    # Data from .npz files
+    joints3D, poses = import_npz('NPZ_OUTS')
 
     kp_3d = joints3D * ext_scale
-    N_kp_per_seq = 24 
+    N_kp_per_seq = 24
     bone_poses = poses.reshape(N_kp_per_seq, -1, 3)
 
     kp_3d = np.array(kp_3d)
@@ -662,25 +659,29 @@ def bones_and_joint_preprocessing(filename):
         [0.,      math.cos(theta[0]),          -math.sin(theta[0]),     0.],
         [0.,      math.sin(theta[0]),          math.cos(theta[0]),      0.],
         [0.,      0.,                          0.,                      1.]
-            ]).astype(np.float32)
+    ]).astype(np.float32)
 
     rot_y = np.array([
         [math.cos(theta[1]),        0.,          math.sin(theta[1]),    0.],
         [0.,                        1.,          0.,                    0.],
         [-math.sin(theta[1]),       0.,          math.cos(theta[1]),    0.],
         [0.,                        0.,          0.,                    1.]
-            ]).astype(np.float32)
+    ]).astype(np.float32)
 
     rot_z = np.array([
-        [math.cos(theta[2]),           math.sin(theta[2]),          0.,             0.],
-        [-math.sin(theta[2]),          math.cos(theta[2]),          0.,             0.],
-        [0.,                           0.,                          1.,             0.],
-        [0.,                           0.,                          0.,             1.]
-            ]).astype(np.float32)
-    
+        [math.cos(theta[2]),           math.sin(
+            theta[2]),          0.,             0.],
+        [-math.sin(theta[2]),          math.cos(theta[2]),
+         0.,             0.],
+        [0.,                           0.,
+            1.,             0.],
+        [0.,                           0.,
+            0.,             1.]
+    ]).astype(np.float32)
+
     rot_rootbone = rot_x @ rot_y @ rot_z
 
-    # bones already have a rotation, just need to correct it instead of using a global one
+    # Bones already have a rotation, just need to correct it instead of using a global one
     root_bones = torch.FloatTensor(bone_poses[:, :1]).view(-1, 3)
     root_rots = torch.FloatTensor(
         rot_rootbone[None, :3, :3]) @ axisang_to_rot(root_bones)
@@ -692,14 +693,10 @@ def bones_and_joint_preprocessing(filename):
     return kp_3d, bone_poses
 
 
-#######################################################################
-########################  Tweaked code ending   #######################
-#######################################################################
-
 def load_animate(pose_h5, c2ws, focals, rest_pose, pose_keys,
-                     selected_idxs, joints, n_step=10, refined=None,
-                     undo_rot=False, center_cam=False,
-                     center_kps=False, idx_map=None):
+                 selected_idxs, joints, n_step=10, refined=None,
+                 undo_rot=False, center_cam=False,
+                 center_kps=False, idx_map=None):
 
     # TODO: figure out how to pick c2ws more elegantly?
     c2ws = c2ws[selected_idxs]
@@ -728,26 +725,24 @@ def load_animate(pose_h5, c2ws, focals, rest_pose, pose_keys,
         kps = kps[selected_idxs]
         bones = bones[selected_idxs]
 
-    # selected_idxs = find_idxs_with_map(selected_idxs, idx_map)
+    kps, bones = bones_and_joint_preprocessing()
 
-    npz_dir = 'NPZ_OUTS'
-    kps, bones = bones_and_joint_preprocessing(npz_dir)
-    # kps = kps[91:111]
-    # bones = bones[91:111]
-    # kps = kps[::3]
-    # bones = bones[::3]
+    # Since animate is done to interpolate different distance poses, we sample our data at each 10 frame to model this relation
+    kps = kps[::10]
+    bones = bones[::10]
 
     if center_kps:
-        root = kps[..., :1, :].copy() # assume to be CMUSkeleton
+        root = kps[..., :1, :].copy()  # assume to be CMUSkeleton
         kps[..., :, :] -= root
     elif center_cam:
         kps[..., :, 0] -= shift_x[:, None]
         kps[..., :, 1] -= shift_y[:, None]
 
     if undo_rot:
-        bones[..., 0, :] = np.array([1.5708, 0., 0.], dtype=np.float32).reshape(1, 1, 3)
+        bones[..., 0, :] = np.array(
+            [1.5708, 0., 0.], dtype=np.float32).reshape(1, 1, 3)
 
-    interp_bones= []
+    interp_bones = []
     w = np.linspace(0, 1.0, n_step, endpoint=False).reshape(-1, 1, 1)
     for i in range(len(bones)-1):
         bone = bones[i:i+1, joints]
@@ -759,8 +754,10 @@ def load_animate(pose_h5, c2ws, focals, rest_pose, pose_keys,
     interp_bones = np.concatenate(interp_bones, axis=0)
     base_bones = bones[:1].repeat(len(interp_bones), 0).copy()
     base_bones[:, joints] = interp_bones
-    l2ws = np.array([get_smpl_l2ws(bone, rest_pose, 1.0) for bone in base_bones])
-    l2ws[..., :3, -1] += kps[:1, :1, :].copy() # only use the first pose as reference
+    l2ws = np.array([get_smpl_l2ws(bone, rest_pose, 1.0)
+                    for bone in base_bones])
+    # only use the first pose as reference
+    l2ws[..., :3, -1] += kps[:1, :1, :].copy()
     kps = l2ws[..., :3, -1]
     skts = np.linalg.inv(l2ws)
 
@@ -768,6 +765,10 @@ def load_animate(pose_h5, c2ws, focals, rest_pose, pose_keys,
     focals = focals[:1].repeat(len(kps), 0)
     cam_idxs = selected_idxs[:1].repeat(len(kps), 0)
     return kps, skts, c2ws, cam_idxs, focals
+
+#######################################################################
+########################  Tweaked code ending   #######################
+#######################################################################
 
 
 def load_pose_rotate(pose_h5, c2ws, focals, rest_pose, pose_keys,

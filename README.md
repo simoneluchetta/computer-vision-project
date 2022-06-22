@@ -37,20 +37,21 @@ First run:
 sudo apt get update
 ```
 
-Create project folder:
+Clone the project:
 ```bash
-mkdir project_name
-```
-Navigate to the folder :
-```bash
-cd project_name
+git clone https://github.com/simoneluchetta/computer-vision-project
 ```
 
-**Make sure that all the files are created within the project_name folder**
+Navigate to the folder :
+```bash
+cd computer-vision-project
+```
+
+**Make sure that all the files are created within the computer-vision-project folder**
 
 ### A-NeRF's virtual environment
 
-1. Make sure to have the of file `A-NeRF/requirements.txt` in the A-NeRF folder.
+1. Make sure to have the file `A-NeRF/requirements.txt` in the A-NeRF folder.
 2. Create a new virtual environment for A-NeRF: 
 ```bash
 virtualenv -p /usr/bin/python3.8 anerf
@@ -62,7 +63,7 @@ source anerf/bin/activate
 4. Check if the environment is active: the following string should appear in the terminal, before the usual path: `(anerf)`.
 5. Run the command 
 ```bash
-pip install -r /A-NeRF/requirements.txt
+pip install -r A-NeRF/requirements.txt
 ```
 
 ### SPIN's virtual environment
@@ -79,12 +80,7 @@ source spin/bin/activate
 4. Check if the environment is active: the following string should appear in the terminal, before the usual path: `(spin)`.
 5. Run the command
 ```bash
-pip install -r /SPIN/requirements.txt
-```
-
-### Clone the project
-```bash
-git clone https://github.com/simoneluchetta/computer-vision-project
+pip install -r SPIN/requirements.txt
 ```
 
 

@@ -113,8 +113,9 @@ logs/
 *.swp
 *.pyc
 
-# data files
+# files in data
 data/*
+
 # But not the README
 !data/README.md
 
