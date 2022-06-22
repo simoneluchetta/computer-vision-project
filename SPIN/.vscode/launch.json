@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: File corrente",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": [
+                "--checkpoint=data/model_checkpoint.pt",
+                "--img=Extreme_Razzi/temp",
+                "--openpose=Extreme_Razzi/output_json_folder",
+                "--result_folder=NPZ_OUTS/"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
+
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "Python: File corrente",
+//             "type": "python",
+//             "request": "launch",
+//             "program": "${file}",
+//             "args": [
+//                 "--checkpoint=data/model_checkpoint.pt",
+//                 "--dataset=lsp",
+//                 "--log_freq=20",
+//                 "--result_file=out.npz"
+//             ],
+//             "console": "integratedTerminal",
+//             "justMyCode": true
+//         }
+//     ]
+// }
