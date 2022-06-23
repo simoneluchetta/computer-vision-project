@@ -2,8 +2,8 @@ numpy
 opencv-python
 PyOpenGL==3.1.5
 pyrender
-scikit-image
-scipy==1.0.0
+scikit-image==0.19.2
+scipy==1.1.0
 tensorboard
 chumpy
 smplx
