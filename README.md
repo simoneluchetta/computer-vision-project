@@ -49,7 +49,7 @@ cd computer-vision-project
 
 **Make sure that all the files are created within the computer-vision-project folder**
 
-### A-NeRF's virtual environment
+## A-NeRF's virtual environment
 
 1. Make sure to have the file `A-NeRF/requirements.txt` in the A-NeRF folder.
 2. Create a new virtual environment for A-NeRF: 
@@ -66,7 +66,7 @@ source anerf/bin/activate
 pip install -r A-NeRF/requirements.txt
 ```
 
-### SPIN's virtual environment
+## SPIN's virtual environment
 
 1. Make sure to have the of file `requirements.txt` in the SPIN folder.
 2. Create a new virtual environment for SPIN : 
@@ -78,11 +78,18 @@ virtualenv spin -p python3
 source spin/bin/activate
 ```
 4. Check if the environment is active: the following string should appear in the terminal, before the usual path: `(spin)`.
-5. Run the command
+5. Navigate to the folder SPIN:
 ```bash
-pip install -r SPIN/requirements.txt
+cd SPIN
 ```
-
+6. Run the command
+```bash
+pip install -r requirements.txt
+```
+7. Get pretrained model weights:
+```bash
+./fetch_data.sh
+```
 
 ### Build OpenPose
 https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/0_index.md#compiling-and-running-openpose-from-source
