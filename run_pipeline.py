@@ -86,11 +86,19 @@ def main():
     cd_anerf = 'cd {}'.format(anerf_dir)
 
     if args.dataset == "surreal":
-        run_anerf = 'python run_render.py --nerf_args=logs/surreal_model/args.txt --ckptpath=logs/surreal_model/150000.tar --dataset=surreal \
+        if args.render_type == "retarget":
+            run_anerf = 'python run_render.py --nerf_args=logs/surreal_model/args.txt --ckptpath=logs/surreal_model/150000.tar --dataset=surreal \
                                         --entry=hard --render_type={} --render_res 512 512 --white_bkgd --runname=surreal_run --frame_number={}'.format(args.render_type, frame_number)
+        if args.render_type == "animate":
+            print("Impossible to run animate on Surreal!\n")
+            return
 
     elif args.dataset == "mixamo":
-        run_anerf = 'python run_render.py --nerf_args=log_mixamo/mixamo_archer/args.txt --ckptpath=log_mixamo/mixamo_archer/archer_ft.tar --dataset=mixamo \
+        if args.render_type == "retarget":
+            run_anerf = 'python run_render.py --nerf_args=log_mixamo/mixamo_archer/args.txt --ckptpath=log_mixamo/mixamo_archer/archer_ft.tar --dataset=mixamo \
+                                        --entry=archer --render_type={} --render_res 512 512 --white_bkgd --runname=mixamo_run --frame_number={}'.format(args.render_type, frame_number)
+        if args.dataset == "animate":
+            run_anerf = 'python run_render.py --nerf_args=log_mixamo/mixamo_archer/args.txt --ckptpath=log_mixamo/mixamo_archer/archer_ft.tar --dataset=mixamo \
                                         --entry=archer --render_type={} --render_res 512 512 --white_bkgd --runname=mixamo_run'.format(args.render_type)
     else:
         print("Please select a dataset, either surreal or mixamo")
