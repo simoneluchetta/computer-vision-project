@@ -40,18 +40,18 @@ def main():
 
     parser.add_argument('--render_type', type=str, required=True,
                         help='select type of render. "animate" or "retarget"')
-    
+
     parser.add_argument('--run_openpose', type=bool, default=False,
                         help='specify if running openpose (requires OpenPose)')
 
     args = parser.parse_args()
-    
+
     #######################################
     ########   DEFINE CONSTANTS   #########
     #######################################
 
-    openpose_on_windows = args.run_openpose
-    
+    run_openpose = args.run_openpose
+
     frame_number = 10
 
     anerf_dir = 'A-NeRF/'
@@ -67,8 +67,8 @@ def main():
     #######################################
     ########     RUN COMMANDS      ########
     #######################################
-    
-    if(not openpose_on_windows):
+
+    if(run_openpose):
         make_tmp = 'mkdir temp'
 
         run_ffmpeg = 'ffmpeg -i {} -vsync 0 temp/temp%d.png'.format(
@@ -95,13 +95,13 @@ def main():
     else:
         print("Please select a dataset, either surreal or mixamo")
         return
-    
-    if openpose_on_windows:
-        cmd = source_spin + "; " + cd_spin + "; " + run_spin + "; cd .. ;" + \
-            source_anerf + "; " + cd_anerf + "; " + run_anerf
-    else:
+
+    if run_openpose:
         cmd = make_tmp + ";" + run_ffmpeg + ";" + run_openpose + ";" + source_spin + \
             ";" + run_spin + ";" + source_anerf + ";" + run_anerf
+    else:
+        cmd = source_spin + "; " + cd_spin + "; " + run_spin + "; cd .. ;" + \
+            source_anerf + "; " + cd_anerf + "; " + run_anerf
 
     p = subprocess.Popen(cmd, shell=True)
 
