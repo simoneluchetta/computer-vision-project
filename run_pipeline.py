@@ -87,11 +87,11 @@ def main():
 
     if args.dataset == "surreal":
         run_anerf = 'python run_render.py --nerf_args=logs/surreal_model/args.txt --ckptpath=logs/surreal_model/150000.tar --dataset=surreal \
-                                        --entry=hard --render_type=retarget --render_res 512 512 --white_bkgd --runname=surreal_run --frame_number={}'.format(frame_number)
+                                        --entry=hard --render_type={} --render_res 512 512 --white_bkgd --runname=surreal_run --frame_number={}'.format(args.render_type, frame_number)
 
     elif args.dataset == "mixamo":
         run_anerf = 'python run_render.py --nerf_args=log_mixamo/mixamo_archer/args.txt --ckptpath=log_mixamo/mixamo_archer/archer_ft.tar --dataset=mixamo \
-                                        --entry=archer --render_type=animate --render_res 512 512 --white_bkgd --runname=mixamo_run'
+                                        --entry=archer --render_type={} --render_res 512 512 --white_bkgd --runname=mixamo_run'.format(args.render_type)
     else:
         print("Please select a dataset, either surreal or mixamo")
         return
