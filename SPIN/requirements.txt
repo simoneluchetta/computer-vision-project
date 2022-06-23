@@ -1,6 +1,6 @@
 numpy
 opencv-python
-pyopengl
+PyOpenGL==3.1.5
 pyrender
 scikit-image
 scipy==1.0.0
