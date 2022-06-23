@@ -389,11 +389,9 @@ def init_catalog(args, n_bullet=10):
         'bubble': set_dict(easy_idx, n_step=30),
     }
     hard_idx = [140, 210, 280, 490, 560, 630, 700, 770, 840, 910]
-    # hard_idx = hard_idx[:2]
-    hard_idx = [10]
     surreal_hard = {
         'data_h5': 'data/surreal/surreal_train_h5py.h5',
-        'retarget': set_dict(hard_idx, length=args.frame_number*2, skip=2, center_kps=True),
+        'retarget': set_dict(hard_idx[0], length=args.frame_number*2, skip=2, center_kps=True),
 
         'bullet': set_dict([190,  210,  230,  490,  510,  530,  790,  810,  830,  910,  930, 950, 1090, 1110, 1130],
                            n_bullet=n_bullet, center_kps=True, center_cam=False),
@@ -444,7 +442,7 @@ def init_catalog(args, n_bullet=10):
         'data_h5': 'data/mixamo/James_processed_h5py.h5',
         'idx_map': load_idxs('data/mixamo/James_selected.npy'),
         'refined': 'neurips21_ckpt/trained/ours/mixamo/james_tv_500k.tar',
-        'retarget': set_dict(james_idx, length=args.frame_number*2, skip=2),
+        'retarget': set_dict(james_idx[0], length=args.frame_number*2, skip=2),
         'bullet': set_dict(james_idx, n_bullet=n_bullet, center_cam=True, center_kps=True),
         'interpolate': set_dict(james_idx, n_step=10, undo_rot=True,
                                 center_cam=True),
@@ -459,7 +457,7 @@ def init_catalog(args, n_bullet=10):
         'data_h5': 'data/mixamo/Archer_processed_h5py.h5',
         'idx_map': load_idxs('data/mixamo/Archer_selected.npy'),
         'refined': 'neurips21_ckpt/trained/ours/mixamo/archer_tv_500k.tar',
-        'retarget': set_dict(archer_idx, length=args.frame_number*2, skip=2),
+        'retarget': set_dict(archer_idx[0], length=args.frame_number*2, skip=2),
         'bullet': set_dict(archer_idx, n_bullet=n_bullet, center_cam=True, center_kps=True),
         'interpolate': set_dict(archer_idx, n_step=10, undo_rot=True,
                                 center_cam=True),

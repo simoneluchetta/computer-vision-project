@@ -14,3 +14,4 @@ torchvision
 tqdm
 trimesh
 neural-renderer-pytorch
+smplx==0.1.13

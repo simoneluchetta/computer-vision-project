@@ -25,7 +25,7 @@ https://user-images.githubusercontent.com/56063432/175058259-02cc04f7-0196-40a5-
 Install all the components as described below.  
 To run the project simply type in the command shell:
 ```bash
-python run_pipeline.py
+python run_pipeline.py --dataset surreal --render_type retarget
 ```
 
 ## Installation instructions
@@ -84,14 +84,17 @@ virtualenv spin -p python3
 source spin/bin/activate
 ```
 4. Check if the environment is active: the following string should appear in the terminal, before the usual path: `(spin)`.
-5. Navigate to the folder SPIN:
+
+5. Run the command
+```bash
+pip install -r SPIN/requirements.txt
+```
+
+6. Navigate to the folder SPIN:
 ```bash
 cd SPIN
 ```
-6. Run the command
-```bash
-pip install -r requirements.txt
-```
+
 7. Get pretrained model weights. Note that you have to be superuser, if not, insert the commands from `fetch_data.sh` in the shell one by one.
 ```bash
 ./fetch_data.sh
@@ -99,7 +102,7 @@ pip install -r requirements.txt
 
 8. Besides these files, you also need to download the *SMPL* model. You will need the [neutral model](http://smplify.is.tue.mpg.de) for training and running the demo code. Please go to the websites for the corresponding projects and register to get access to the downloads section. Move the data in `/data/smpl`
 
-9. (If needed) Navigate to `/spin/lib/python3.8/site-packages/torchgeometry/core`, then type:
+9. (If needed) Navigate to `spin/lib/python3.8/site-packages/torchgeometry/core`, then type:
 
     ```bash
     nano conversions.py

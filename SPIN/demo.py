@@ -128,6 +128,7 @@ def process_image(img_file, bbox_file, openpose_file, input_res=224):
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    print("Starting SPIN...\n")
 
     device = torch.device(
         'cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -225,3 +226,5 @@ if __name__ == '__main__':
         # Save reconstructions to a file for further processing
         np.savez(os.path.join(args.result_folder, "out_{}.npz".format(i)), pred_joints=pred_joints, pose=smpl_pose,
                  betas=smpl_betas, camera=smpl_camera, smpl_joints=smpl_joints)
+    
+    print("SPIN process ended correctly!\n")

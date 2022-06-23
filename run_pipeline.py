@@ -31,14 +31,27 @@ If OpenPose on Windows:
 
 def main():
     import subprocess
+    import argparse
 
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--dataset', type=str, required=True,
+                        help='which dataset to use, either surreal or mixamo-archer')
+
+    parser.add_argument('--render_type', type=str, required=True,
+                        help='select type of render. "animate" or "retarget"')
+    
+    parser.add_argument('--run_openpose', type=bool, required=True, default=False,
+                        help='specify if running openpose (requires OpenPose)')
+
+    args = parser.parse_args()
+    
     #######################################
     ########   DEFINE CONSTANTS   #########
     #######################################
 
-    openpose_on_windows = True
-    run_mixamo = True
-    run_surreal = not(run_mixamo)
+    openpose_on_windows = args.run_openpose
+    
     frame_number = 10
 
     anerf_dir = 'A-NeRF/'
@@ -72,14 +85,17 @@ def main():
     source_anerf = '. {}'.format(anerf_venv)
     cd_anerf = 'cd {}'.format(anerf_dir)
 
-    if run_surreal:
+    if args.dataset == "surreal":
         run_anerf = 'python run_render.py --nerf_args=logs/surreal_model/args.txt --ckptpath=logs/surreal_model/150000.tar --dataset=surreal \
                                         --entry=hard --render_type=retarget --render_res 512 512 --white_bkgd --runname=surreal_run --frame_number={}'.format(frame_number)
 
-    if run_mixamo:
+    elif args.dataset == "mixamo":
         run_anerf = 'python run_render.py --nerf_args=log_mixamo/mixamo_archer/args.txt --ckptpath=log_mixamo/mixamo_archer/archer_ft.tar --dataset=mixamo \
                                         --entry=archer --render_type=animate --render_res 512 512 --white_bkgd --runname=mixamo_run'
-
+    else:
+        print("Please select a dataset, either surreal or mixamo")
+        return
+    
     if openpose_on_windows:
         cmd = source_spin + "; " + cd_spin + "; " + run_spin + "; cd .. ;" + \
             source_anerf + "; " + cd_anerf + "; " + run_anerf
