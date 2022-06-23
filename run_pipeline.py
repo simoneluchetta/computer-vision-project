@@ -41,7 +41,7 @@ def main():
     parser.add_argument('--render_type', type=str, required=True,
                         help='select type of render. "animate" or "retarget"')
     
-    parser.add_argument('--run_openpose', type=bool, required=True, default=False,
+    parser.add_argument('--run_openpose', type=bool, default=False,
                         help='specify if running openpose (requires OpenPose)')
 
     args = parser.parse_args()
