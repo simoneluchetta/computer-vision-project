@@ -65,6 +65,12 @@ source anerf/bin/activate
 ```bash
 pip install -r A-NeRF/requirements.txt
 ```
+6. Install pytorch3d, for other info see https://github.com/facebookresearch/pytorch3d:
+```bash
+pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py38_cu113_pyt1110/download.html
+```
+7. Download Surreal and Mixamo Datasets see A-NeRF original documentation [here](/A-NeRF/data/README.md)
+
 
 ## SPIN's virtual environment
 
@@ -86,13 +92,31 @@ cd SPIN
 ```bash
 pip install -r requirements.txt
 ```
-7. Get pretrained model weights:
+7. Get pretrained model weights. Note that you have to be superuser, if not, insert the commands from `fetch_data.sh` in the shell one by one.
 ```bash
 ./fetch_data.sh
 ```
 
+8. Besides these files, you also need to download the *SMPL* model. You will need the [neutral model](http://smplify.is.tue.mpg.de) for training and running the demo code. Please go to the websites for the corresponding projects and register to get access to the downloads section. Move the data in `/data/smpl`
+
+9. (If needed) Navigate to `/spin/lib/python3.8/site-packages/torchgeometry/core`, then type:
+
+    ```bash
+    nano conversions.py
+    ```
+
+    Search for "mask_c0", then edit out those lines to appear as follows:
+
+    ```bash
+    mask_c0 = mask_d2 * mask_d0_d1
+    mask_c1 = mask_d2 * ~(mask_d0_d1)
+    mask_c2 = ~(mask_d2) * mask_d0_nd1
+    mask_c3 = ~(mask_d2) * ~(mask_d0_nd1)
+    ```
+
+
 ### Build OpenPose
-https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/0_index.md#compiling-and-running-openpose-from-source
+[OpenPose Repository](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/0_index.md#compiling-and-running-openpose-from-source)
 
 We provide two ways to install OpenPose, either build the code (better, as `run_pipeline.py` assumes this) or download on another machine the precompiled binary for Windows.
 

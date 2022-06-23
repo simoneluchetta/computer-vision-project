@@ -1,5 +1,7 @@
 ConfigArgParse>=1.5.3
+fvcore==0.1.5.post20220512
 imageio>=2.13.2
+iopath==0.1.9
 matplotlib>=3.5.0
 numpy>=1.21.4
 opencv-python>=4.5.4.60
